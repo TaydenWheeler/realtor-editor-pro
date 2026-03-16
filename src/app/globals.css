@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[#fafafa] text-[#1d1d1f];
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+      "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  ::selection {
+    background: rgba(139, 61, 255, 0.15);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #8b3dff 0%, #ff6b9d 50%, #ffa44f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-fun {
+    background: linear-gradient(135deg, #8b3dff 0%, #ff6b9d 50%, #ffa44f 100%);
+  }
+
+  .bg-gradient-subtle {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+  }
+
+  .bg-gradient-card {
+    background: linear-gradient(135deg, rgba(139, 61, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .glass-dark {
+    background: rgba(29, 29, 31, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .shadow-apple {
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-apple-lg {
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04),
+                0 4px 16px rgba(0, 0, 0, 0.06),
+                0 16px 48px rgba(0, 0, 0, 0.08);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04),
+                0 8px 24px rgba(0, 0, 0, 0.08),
+                0 24px 64px rgba(0, 0, 0, 0.1);
+  }
+}
