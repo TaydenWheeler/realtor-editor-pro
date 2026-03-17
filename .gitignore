@@ -29,6 +29,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# video files & temp data
+/test-footage
+/uploads
+/output
+/.tmp
+/data
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
