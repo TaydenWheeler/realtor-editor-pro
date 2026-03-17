@@ -29,6 +29,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# python venv
+.venv
+
 # video files & temp data
 /test-footage
 /uploads

@@ -1,7 +1,7 @@
 import { execSync } from "child_process"
 import fs from "fs"
 import path from "path"
-import { FFMPEG_PATH, VIDEO_CONFIG } from "./config"
+import { FFMPEG_PATH, FFPROBE_PATH, VIDEO_CONFIG } from "./config"
 
 /**
  * Mix a background music track into a video (replacing any existing audio)
@@ -18,7 +18,7 @@ export function mixMusic(
   fs.mkdirSync(path.dirname(outputPath), { recursive: true })
 
   // Get video duration
-  const durationCmd = `"${path.join(process.env.HOME || "", "bin", "ffprobe")}" -v quiet -show_entries format=duration -of csv=p=0 "${videoPath}"`
+  const durationCmd = `"${FFPROBE_PATH}" -v quiet -show_entries format=duration -of csv=p=0 "${videoPath}"`
   const duration = parseFloat(execSync(durationCmd, { encoding: "utf-8" }).trim())
 
   const fadeOutStart = Math.max(0, duration - 1.5)
@@ -61,7 +61,7 @@ export function mixMusicUnderVoice(
 ): string {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true })
 
-  const durationCmd = `"${path.join(process.env.HOME || "", "bin", "ffprobe")}" -v quiet -show_entries format=duration -of csv=p=0 "${videoPath}"`
+  const durationCmd = `"${FFPROBE_PATH}" -v quiet -show_entries format=duration -of csv=p=0 "${videoPath}"`
   const duration = parseFloat(execSync(durationCmd, { encoding: "utf-8" }).trim())
 
   const fadeOutStart = Math.max(0, duration - 2)

@@ -1,8 +1,8 @@
 import path from "path"
 
-// FFmpeg binary paths
-export const FFMPEG_PATH = path.join(process.env.HOME || "", "bin", "ffmpeg")
-export const FFPROBE_PATH = path.join(process.env.HOME || "", "bin", "ffprobe")
+// FFmpeg binary paths — use system-installed binaries
+export const FFMPEG_PATH = process.env.FFMPEG_PATH || "/opt/homebrew/bin/ffmpeg"
+export const FFPROBE_PATH = process.env.FFPROBE_PATH || "/opt/homebrew/bin/ffprobe"
 
 // Output specs for all videos
 export const VIDEO_CONFIG = {
