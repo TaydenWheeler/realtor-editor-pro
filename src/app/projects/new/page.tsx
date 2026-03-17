@@ -18,6 +18,7 @@ export default function NewProjectPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [projectId, setProjectId] = useState<string | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setFiles(Array.from(e.target.files))
@@ -32,9 +33,45 @@ export default function NewProjectPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    await new Promise((r) => setTimeout(r, 2000))
-    setIsSubmitting(false)
-    setSubmitted(true)
+
+    try {
+      // Step 1: Create the project
+      const projRes = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          files: files.map((f) => f.name),
+        }),
+      })
+      const project = await projRes.json()
+      setProjectId(project.id)
+
+      // Step 2: Upload all video files
+      const uploadData = new FormData()
+      uploadData.append("projectId", project.id)
+      for (const file of files) {
+        uploadData.append("files", file)
+      }
+      await fetch("/api/upload", {
+        method: "POST",
+        body: uploadData,
+      })
+
+      // Step 3: Update project status
+      await fetch(`/api/projects/${project.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "analyzing" }),
+      })
+
+      setSubmitted(true)
+    } catch (err) {
+      console.error("Submit failed:", err)
+      alert("Something went wrong uploading. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const downPayment = formData.price
@@ -60,12 +97,22 @@ export default function NewProjectPage() {
           <p className="text-[15px] text-[#86868b] mb-10">
             We&apos;ll have your 3 videos ready in about 15 minutes. Go grab that coffee.
           </p>
-          <Link
-            href="/dashboard"
-            className="rounded-full bg-[#1d1d1f] px-8 py-3.5 text-[15px] font-semibold text-white hover:bg-[#333] transition-colors"
-          >
-            Back to Dashboard
-          </Link>
+          <div className="flex gap-3 justify-center">
+            {projectId && (
+              <Link
+                href={`/projects/${projectId}`}
+                className="rounded-full bg-gradient-fun px-8 py-3.5 text-[15px] font-semibold text-white hover:opacity-90 transition-opacity"
+              >
+                View Project
+              </Link>
+            )}
+            <Link
+              href="/dashboard"
+              className="rounded-full bg-[#1d1d1f] px-8 py-3.5 text-[15px] font-semibold text-white hover:bg-[#333] transition-colors"
+            >
+              Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     )
